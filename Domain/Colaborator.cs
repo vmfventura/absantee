@@ -1,5 +1,6 @@
 ﻿namespace Domain;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Mail;
 
 public class Colaborator : IColaborator
@@ -21,7 +22,7 @@ public class Colaborator : IColaborator
 
 		if( strName==null ||
 			strName.Length > 50 ||
-			string.IsNullOrEmpty(strName) ||
+			string.IsNullOrWhiteSpace(strName) ||
 			ContainsAny(strName, ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]))
 			return false;
 

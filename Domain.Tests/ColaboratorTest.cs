@@ -10,10 +10,12 @@ public class ColaboradorTest
         new Colaborator( strName, strEmail);
     }
 
+    
+
     [Theory]
     [InlineData("", "catarinamoreira@email.pt")]
     [InlineData("abasdfsc 12", "catarinamoreira@email.pt")]
-    //[InlineData("     ", "catarinamoreira@email.pt")]
+    [InlineData("     ", "catarinamoreira@email.pt")]
     [InlineData("kasdjflkadjf lkasdfj laksdjf alkdsfjv alkdsfjv asldkfj asldkfvj asdlkvj asdlkfvj asdlkfvj asdflkfvj asfldkjfv jasdflkvj lasf", "catarinamoreira@email.pt")]
     [InlineData(null, "catarinamoreira@email.pt")]
     public void WhenPassingInvalidName_ThenThrowsException(string strName, string strEmail)
