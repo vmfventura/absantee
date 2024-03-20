@@ -56,7 +56,7 @@ namespace Domain
 
         public int getNumberOfDaysByColaborator(IColaborator colaborator)
         {
-            return _holidayList.Where(h => h.Colaborador == colaborator)
+            return _holidayList.Where(h => h.hasColaborador(colaborator))
                                 .Sum(h => h.getNumberOfDaysByColaborator());
         }
     }
