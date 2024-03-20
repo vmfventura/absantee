@@ -7,10 +7,10 @@ namespace Domain
 {
     public class Holidays : IHolidays
     {
-        private HolidayFactory _holidayFactory;
+        private IHolidayFactory _holidayFactory;
         private List<Holiday> _holidayList = new List<Holiday>();
 
-        public Holidays(HolidayFactory hFactory)
+        public Holidays(IHolidayFactory hFactory)
         {
             if (hFactory is not null)
             {
@@ -59,6 +59,10 @@ namespace Domain
         {
             return _holidayList.Where(h => h.hasColaborador(colaborator))
                                 .Sum(h => h.getNumberOfHolidayPeriodsDays());
+        }
+        public List<Holiday> HolidaysList
+        {
+            get { return _holidayList; }
         }
     }
 }

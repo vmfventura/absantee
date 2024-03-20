@@ -7,6 +7,6 @@ namespace Domain
 {
     public interface IHolidays
     {
-        public Holiday addHoliday(IHolidayFactory hFactory, IColaborator colaborator);
+        public Holiday addHoliday(IColaborator colaborator);
     }
 }

@@ -7,9 +7,6 @@ public class Holiday : IHoliday
 	private List<HolidayPeriod> _holidayPeriods = new List<HolidayPeriod>();
 
 	private IColaborator Colaborador;
-	// {
-	// 	get { return _colaborator; }
-	// }
 
 	public Holiday(IColaborator colab)
 	{
@@ -56,7 +53,7 @@ public class Holiday : IHoliday
 		{
 			numberOfDays += hp.getNumberOfDays();
 		}
-		if (numberOfDays > intDaysOff)
+		if (numberOfDays >= intDaysOff)
 		{
 			return numberOfDays;
 		}

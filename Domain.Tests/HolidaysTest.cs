@@ -8,17 +8,15 @@ namespace Domain.Tests
     public class HolidaysTest
     {
 
-        // public Holidays(List<Holiday> holidayList)
-
         [Fact]
         public void WhenPassingCorrectData_ThenHolidaysShouldBeInstantiated()
         {
             // arrange
-            Mock<List<Holiday>> _holidayDouble = new Mock<List<Holiday>>();
+            Mock<IHolidayFactory> _holidayDouble = new Mock<IHolidayFactory>();
 
             // act
 
-            new Holidays (_holidayDouble.Object);
+            new Holidays(_holidayDouble.Object);
         }
 
 
@@ -29,23 +27,83 @@ namespace Domain.Tests
         }
 
         [Fact]
-        public void WhenAddHoliday_ShouldReturnHolidaysList()
+        public void AddHoliday_ShouldAddHolidayToHolidayList()
         {
-            // arrange
-            Mock<List<Holiday>> _holidayDouble = new Mock<List<Holiday>>();
-            Mock<IColaborator> colabDouble = new Mock<IColaborator>();
-            Mock<IHolidayFactory> hFactoryDouble = new Mock<IHolidayFactory>();
+            // Arrange
+            var holidayFactoryMock = new Mock<IHolidayFactory>();
+            var colaboratorMock = new Mock<IColaborator>();
+            var holidayMock = new Mock<Holiday>(colaboratorMock.Object);
+            holidayFactoryMock.Setup(x => x.NewHoliday(colaboratorMock.Object)).Returns(holidayMock.Object);
+            var holidayList = new Holidays(holidayFactoryMock.Object);
 
-            Holidays holidays = new Holidays(_holidayDouble.Object);
+            // Act
+            var result = holidayList.addHoliday(colaboratorMock.Object);
 
-            hFactoryDouble.Setup(hF => hF.NewHoliday(colabDouble.Object)).Returns(new Holiday(colabDouble.Object));
-
-            // act
-            Holiday holiday = holidays.addHoliday(hFactoryDouble.Object, colabDouble.Object);
-
-            // arrange
-            Assert.Equivalent(, holiday)
+            // Assert
+            Assert.Equal(holidayMock.Object, result);
+            Assert.Contains(holidayMock.Object, holidayList.HolidaysList);
         }
 
+        [Fact]
+        public void AddHoliday_ShouldAddNullHolidayToHolidayList()
+        {
+            // Arrange
+            var holidayFactoryMock = new Mock<IHolidayFactory>();
+            var colaboratorMock = new Mock<IColaborator>();
+            var holidayMock = new Mock<Holiday>(colaboratorMock.Object);
+            holidayFactoryMock.Setup(x => x.NewHoliday(null)).Returns(holidayMock.Object);
+            var holidayList = new Holidays(holidayFactoryMock.Object);
+
+            // Act
+            var result = holidayList.addHoliday(null);
+
+            // Assert
+            Assert.Equal(holidayMock.Object, result);
+            Assert.Contains(holidayMock.Object, holidayList.HolidaysList);
+        }
+
+        [Fact]
+        public void AddHoliday_ShouldAddHolidayToHolidayListMultipleTimes()
+        {
+            // Arrange
+            var holidayFactoryMock = new Mock<IHolidayFactory>();
+            var colaboratorMock = new Mock<IColaborator>();
+            var holidayMock = new Mock<Holiday>(colaboratorMock.Object);
+            holidayFactoryMock.Setup(x => x.NewHoliday(colaboratorMock.Object)).Returns(holidayMock.Object);
+            var holidayList = new Holidays(holidayFactoryMock.Object);
+
+            // Act
+            var result1 = holidayList.addHoliday(colaboratorMock.Object);
+            var result2 = holidayList.addHoliday(colaboratorMock.Object);
+
+            // Assert
+            Assert.Equal(holidayMock.Object, result1);
+            Assert.Contains(holidayMock.Object, holidayList.HolidaysList);
+            Assert.Equal(result1, result2);
+            Assert.Contains(result2, holidayList.HolidaysList);
+        }
+
+        [Fact]
+        public void GetListHolidayMoreDays_ReturnsHolidaysWithMoreThanXDaysOff()
+        {
+            // Arrange
+            var mockHoliday1 = new Mock<IHoliday>();
+            mockHoliday1.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(2);
+        
+            var mockHoliday2 = new Mock<IHoliday>();
+            mockHoliday2.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(0);
+
+            var mockHoliday3 = new Mock<IHoliday>();
+            mockHoliday3.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(3);
+        
+            var holidayList = new List<IHoliday> { mockHoliday1.Object, mockHoliday2.Object, mockHoliday3.Object };
+            var numberOfDays = 1;
+        
+            // Act
+            var result = holidayList.Where(h => h.getHolidaysDaysWithMoreThanXDaysOff(numberOfDays) > 0).ToList();
+        
+            // Assert
+            Assert.Equal(2, result.Count);
+        }
     }
 }

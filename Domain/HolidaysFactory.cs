@@ -7,9 +7,9 @@ namespace Domain
 {
     public class HolidaysFactory
     {
-        public Holidays NewHoliday(List<Holiday> holidayList)
+        public Holidays NewHoliday(IHolidayFactory hFactory)
         {
-            return new Holidays(holidayList);
+            return new Holidays(hFactory);
         }
     }
 }
