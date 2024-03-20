@@ -7,23 +7,24 @@ namespace Domain
 {
     public class Holidays
     {
+        private HolidayFactory _holidayFactory;
         private List<Holiday> _holidayList = new List<Holiday>();
 
-        public Holidays(List<Holiday> holidayList)
+        public Holidays(HolidayFactory hFactory)
         {
-            if (holidayList is not null)
+            if (hFactory is not null)
             {
-                _holidayList = holidayList;
+                _holidayFactory = hFactory;
             }
             else
             {
-                throw new ArgumentException("Holidays cannot be null");
+                throw new ArgumentException("Holiday Factory cannot be null");
             }
         }
 
-        public Holiday addHolidaysList(HolidayFactory hFactory, IColaborator colaborator)
+        public Holiday addHolidaysList(IColaborator colaborator)
         {
-            Holiday holiday = hFactory.NewHoliday(colaborator);
+            Holiday holiday = _holidayFactory.NewHoliday(colaborator);
             _holidayList.Add(holiday);
             return holiday;
         }
