@@ -7,19 +7,45 @@ namespace Domain.Tests
 {
     public class HolidaysTest
     {
-        // [Fact]
-        // public void WhenPassingCorrectData_ThenHolidaysSouldBeInstantiated()
-        // {
-        //     // arrange
-        //     Mock<IColaborator> _colabDouble = new Mock<IColaborator>();
-        //     Mock<List<Holiday>> _holidayDouble = new Mock<List<Holiday>>();
 
-        //     // act
+        // public Holidays(List<Holiday> holidayList)
 
-        //     Holidays _holidays = new Holidays (_colabDouble.Object, _holidayDouble.Object);
-        // }
+        [Fact]
+        public void WhenPassingCorrectData_ThenHolidaysShouldBeInstantiated()
+        {
+            // arrange
+            Mock<List<Holiday>> _holidayDouble = new Mock<List<Holiday>>();
 
-    
+            // act
+
+            new Holidays (_holidayDouble.Object);
+        }
+
+
+        [Fact]
+        public void WhenPassingNullAsHolidayList_ThenThrowsException()
+        {
+            Assert.Throws<ArgumentException>(() => new Holidays(null));
+        }
+
+        [Fact]
+        public void WhenAddHoliday_ShouldReturnHolidaysList()
+        {
+            // arrange
+            Mock<List<Holiday>> _holidayDouble = new Mock<List<Holiday>>();
+            Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+            Mock<IHolidayFactory> hFactoryDouble = new Mock<IHolidayFactory>();
+
+            Holidays holidays = new Holidays(_holidayDouble.Object);
+
+            hFactoryDouble.Setup(hF => hF.NewHoliday(colabDouble.Object)).Returns(new Holiday(colabDouble.Object));
+
+            // act
+            Holiday holiday = holidays.addHoliday(hFactoryDouble.Object, colabDouble.Object);
+
+            // arrange
+            Assert.Equivalent(, holiday)
+        }
 
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public class Holidays
+    public class Holidays : IHolidays
     {
         private List<Holiday> _holidayList = new List<Holiday>();
 
@@ -21,7 +21,7 @@ namespace Domain
             }
         }
 
-        public Holiday addHolidaysList(HolidayFactory hFactory, IColaborator colaborator)
+        public Holiday addHoliday(IHolidayFactory hFactory, IColaborator colaborator)
         {
             Holiday holiday = hFactory.NewHoliday(colaborator);
             _holidayList.Add(holiday);
