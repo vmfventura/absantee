@@ -35,7 +35,7 @@ namespace Domain
 
         public List<Holiday> getListHolidayFilterByColaborator(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
         {
-            IEnumerable<Holiday> holidayList = _holidayList.Where(h => h.hasHolidayPeriodsDuring(colaborator, startDate, endDate)); 
+            IEnumerable<Holiday> holidayList = _holidayList.Where(h => h.hasColaboratorAndHolidayPeriodsDuring(colaborator, startDate, endDate)); 
 
             if (!holidayList.Any())
             {
@@ -48,8 +48,8 @@ namespace Domain
         public int getNumberOfHolidaysDaysForColaboratorDuringPeriod(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
         {
             int totalDaysOff = _holidayList
-                .Where(h => h.hasHolidayPeriodsDuring(colaborator, startDate, endDate))
-                .Sum(holiday => holiday.getNumberOfDaysByColaborator());
+                .Where(h => h.hasColaboratorAndHolidayPeriodsDuring(colaborator, startDate, endDate))
+                .Sum(holiday => holiday.getNumberOfHolidayPeriodsDays());
 
             return totalDaysOff;
         }
@@ -57,7 +57,7 @@ namespace Domain
         public int getNumberOfDaysByColaborator(IColaborator colaborator)
         {
             return _holidayList.Where(h => h.hasColaborador(colaborator))
-                                .Sum(h => h.getNumberOfDaysByColaborator());
+                                .Sum(h => h.getNumberOfHolidayPeriodsDays());
         }
     }
 }
