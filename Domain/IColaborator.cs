@@ -1,4 +1,5 @@
-public interface IColaborator {
+public interface IColaborator 
+{
 
 	string getName();
 }

@@ -10,11 +10,6 @@ public class Holiday : IHoliday
 	{
 		get { return _colaborator; }
 	}
-	
-	public List<HolidayPeriod> HolidayPeriods
-	{
-		get { return _holidayPeriods; }
-	}
 
 	public Holiday(IColaborator colab)
 	{
@@ -41,8 +36,8 @@ public class Holiday : IHoliday
 	public List<HolidayPeriod> getHolidayPeriodsDuring(DateOnly startDate, DateOnly endDate)
 	{
 		return _holidayPeriods.Where(hp => hp.EndDate > startDate && hp.StartDate < endDate)
-								.Select(hp => new HolidayPeriod(hp.StartDate < startDate ? startDate : hp.StartDate,
-											hp.EndDate > endDate ? endDate : hp.EndDate))
+								// .Select(hp => new HolidayPeriod(hp.StartDate < startDate ? startDate : hp.StartDate,
+								// 			hp.EndDate > endDate ? endDate : hp.EndDate))
 								.ToList();
 	}
 
@@ -50,6 +45,8 @@ public class Holiday : IHoliday
 	{
 			return _colaborator == colaborator && getHolidayPeriodsDuring(startDate, endDate).Any();
 	}
+
+	
 
 	public int getHolidaysDaysWithMoreThanXDaysOff(int intDaysOff)
 	{
@@ -67,11 +64,6 @@ public class Holiday : IHoliday
 		{
 			return 0;
 		}
-	}	
-
-	public List<HolidayPeriod> getListHoliday()
-	{
-		return _holidayPeriods;
 	}
 
 	public int getNumberOfDaysByColaborator()

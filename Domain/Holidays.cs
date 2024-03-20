@@ -33,11 +33,6 @@ namespace Domain
             return _holidayList.Where(h => h.getHolidaysDaysWithMoreThanXDaysOff(numberOfDays) > 0).ToList();
         }
 
-        // public List<Holiday> getListHoliday()
-        // {
-        //     return _holidayList;  
-        // }
-        
         public List<Holiday> getListHolidayFilterByColaborator(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
         {
             IEnumerable<Holiday> holidayList = _holidayList.Where(h => h.hasHolidayPeriodsDuring(colaborator, startDate, endDate)); 
@@ -48,6 +43,15 @@ namespace Domain
             }
 
             return holidayList.ToList();
+        }
+
+        public int getNumberOfHolidaysDaysForColaboratorDuringPeriod(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
+        {
+            int totalDaysOff = _holidayList
+                .Where(h => h.hasHolidayPeriodsDuring(colaborator, startDate, endDate))
+                .Sum(holiday => holiday.getNumberOfDaysByColaborator());
+
+            return totalDaysOff;
         }
 
         public int getNumberOfDaysByColaborator(IColaborator colaborator)

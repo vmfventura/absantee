@@ -54,4 +54,19 @@ public class ColaboradorTest
     {
         Assert.Throws<ArgumentException>(() => new Colaborator(strName, strEmail));
     }
+
+    [Fact]
+    public void WhenPassingName_ShouldGetName()
+    {
+        // assert
+        string nameExpected = "Catarina Moreira";
+        var colaborator = new Colaborator("Catarina Moreira", "catarinamoreira@email.pt");
+
+        // act
+
+        string name = colaborator.getName();
+
+        //assert
+        Assert.Equal("Catarina Moreira", name);
+    }
 }
