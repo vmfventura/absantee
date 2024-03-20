@@ -60,9 +60,9 @@ namespace Domain
             return _holidayList.Where(h => h.hasColaborador(colaborator))
                                 .Sum(h => h.getNumberOfHolidayPeriodsDays());
         }
-        public List<Holiday> HolidaysList
-        {
-            get { return _holidayList; }
-        }
+        // private List<Holiday> HolidaysList
+        // {
+        //     get { return _holidayList; }
+        // }
     }
 }

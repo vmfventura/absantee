@@ -6,8 +6,6 @@ public class Holiday : IHoliday
 
 	private List<HolidayPeriod> _holidayPeriods = new List<HolidayPeriod>();
 
-	private IColaborator Colaborador;
-
 	public Holiday(IColaborator colab)
 	{
 		if (colab != null)
@@ -59,7 +57,7 @@ public class Holiday : IHoliday
 		}
 		else
 		{
-			return 0;
+			return numberOfDays;
 		}
 	}
 

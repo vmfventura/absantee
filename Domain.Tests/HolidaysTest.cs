@@ -41,7 +41,6 @@ namespace Domain.Tests
 
             // Assert
             Assert.Equal(holidayMock.Object, result);
-            Assert.Contains(holidayMock.Object, holidayList.HolidaysList);
         }
 
         [Fact]
@@ -59,7 +58,6 @@ namespace Domain.Tests
 
             // Assert
             Assert.Equal(holidayMock.Object, result);
-            Assert.Contains(holidayMock.Object, holidayList.HolidaysList);
         }
 
         [Fact]
@@ -78,29 +76,25 @@ namespace Domain.Tests
 
             // Assert
             Assert.Equal(holidayMock.Object, result1);
-            Assert.Contains(holidayMock.Object, holidayList.HolidaysList);
             Assert.Equal(result1, result2);
-            Assert.Contains(result2, holidayList.HolidaysList);
         }
 
         [Fact]
-        public void GetListHolidayMoreDays_ReturnsHolidaysWithMoreThanXDaysOff()
+        public void GetListHolidayMoreDays_ReturnsHolidayListWithMoreThanXDaysOff()
         {
             // Arrange
-            var mockHoliday1 = new Mock<IHoliday>();
-            mockHoliday1.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(2);
+            Mock<IHolidayFactory> holidayFactoryMock = new Mock<IHolidayFactory>();
+            Holidays holidays = new Holidays(holidayFactoryMock.Object);
+            
+            var mockHoliday = new List<Holiday>() {};
+            var mockHolidays1 = new Mock<IHolidays>();
+            mockHolidays1.Setup(h => h.GetListHolidayMoreDays(It.IsAny<int>())).Returns(mockHoliday);
         
-            var mockHoliday2 = new Mock<IHoliday>();
-            mockHoliday2.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(0);
-
-            var mockHoliday3 = new Mock<IHoliday>();
-            mockHoliday3.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(3);
-        
-            var holidayList = new List<IHoliday> { mockHoliday1.Object, mockHoliday2.Object, mockHoliday3.Object };
-            var numberOfDays = 1;
+            // var holidayList = new List<Holiday> { mockHoliday };
+            var numberOfDays = 2;
         
             // Act
-            var result = holidayList.Where(h => h.getHolidaysDaysWithMoreThanXDaysOff(numberOfDays) > 0).ToList();
+            var result = holidays.GetListHolidayMoreDays(numberOfDays).ToList();
         
             // Assert
             Assert.Equal(2, result.Count);

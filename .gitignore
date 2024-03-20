@@ -8,6 +8,8 @@ node_modules/
 dist/
 obj/
 bin/
+coveragereport/
+Domain.Tests/TestResults/
 
 # Compiled Java class files
 *.class
