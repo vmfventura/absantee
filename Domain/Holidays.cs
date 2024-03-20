@@ -22,7 +22,7 @@ namespace Domain
             }
         }
 
-        public Holiday addHolidaysList(IColaborator colaborator)
+        public Holiday addHoliday(IColaborator colaborator)
         {
             Holiday holiday = _holidayFactory.NewHoliday(colaborator);
             _holidayList.Add(holiday);
