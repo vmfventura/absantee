@@ -41,7 +41,7 @@ public class Holiday : IHoliday
 								.ToList();
 	}
 
-	public bool hasHolidayPeriodsDuring(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
+	public bool hasColaboratorAndHolidayPeriodsDuring(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
 	{
 			return _colaborator == colaborator && getHolidayPeriodsDuring(startDate, endDate).Any();
 	}
@@ -66,7 +66,7 @@ public class Holiday : IHoliday
 		}
 	}
 
-	public int getNumberOfDaysByColaborator()
+	public int getNumberOfHolidayPeriodsDays()
 	{
 		return _holidayPeriods.Sum(hp => hp.getNumberOfDays());
 	}

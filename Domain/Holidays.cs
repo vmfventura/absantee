@@ -7,23 +7,24 @@ namespace Domain
 {
     public class Holidays : IHolidays
     {
+        private HolidayFactory _holidayFactory;
         private List<Holiday> _holidayList = new List<Holiday>();
 
-        public Holidays(List<Holiday> holidayList)
+        public Holidays(HolidayFactory hFactory)
         {
-            if (holidayList is not null)
+            if (hFactory is not null)
             {
-                _holidayList = holidayList;
+                _holidayFactory = hFactory;
             }
             else
             {
-                throw new ArgumentException("Holidays cannot be null");
+                throw new ArgumentException("Holiday Factory cannot be null");
             }
         }
 
-        public Holiday addHoliday(IHolidayFactory hFactory, IColaborator colaborator)
+        public Holiday addHoliday(IColaborator colaborator)
         {
-            Holiday holiday = hFactory.NewHoliday(colaborator);
+            Holiday holiday = _holidayFactory.NewHoliday(colaborator);
             _holidayList.Add(holiday);
             return holiday;
         }
@@ -35,7 +36,7 @@ namespace Domain
 
         public List<Holiday> getListHolidayFilterByColaborator(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
         {
-            IEnumerable<Holiday> holidayList = _holidayList.Where(h => h.hasHolidayPeriodsDuring(colaborator, startDate, endDate)); 
+            IEnumerable<Holiday> holidayList = _holidayList.Where(h => h.hasColaboratorAndHolidayPeriodsDuring(colaborator, startDate, endDate)); 
 
             if (!holidayList.Any())
             {
@@ -48,8 +49,8 @@ namespace Domain
         public int getNumberOfHolidaysDaysForColaboratorDuringPeriod(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
         {
             int totalDaysOff = _holidayList
-                .Where(h => h.hasHolidayPeriodsDuring(colaborator, startDate, endDate))
-                .Sum(holiday => holiday.getNumberOfDaysByColaborator());
+                .Where(h => h.hasColaboratorAndHolidayPeriodsDuring(colaborator, startDate, endDate))
+                .Sum(holiday => holiday.getNumberOfHolidayPeriodsDays());
 
             return totalDaysOff;
         }
@@ -57,7 +58,7 @@ namespace Domain
         public int getNumberOfDaysByColaborator(IColaborator colaborator)
         {
             return _holidayList.Where(h => h.hasColaborador(colaborator))
-                                .Sum(h => h.getNumberOfDaysByColaborator());
+                                .Sum(h => h.getNumberOfHolidayPeriodsDays());
         }
     }
 }

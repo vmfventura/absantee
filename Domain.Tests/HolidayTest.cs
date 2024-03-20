@@ -57,7 +57,7 @@ public class HolidayTest
     // }
 
     [Fact]
-    public void WhenHasColaboratorWithCorrectColaborator_ShouldReturnTrue()
+    public void WhenRequestingCorrectHasColaborator_ShouldReturnTrue()
     {
         // arrange
         Mock<IColaborator> colabDouble = new Mock<IColaborator>();
@@ -246,7 +246,7 @@ public class HolidayTest
         HolidayPeriod hp1 = _holiday.addHolidayPeriod(hpFactoryDouble.Object, startDate, endDate);
 
         // act
-        int numberOfDaysResult = _holiday.getNumberOfDaysByColaborator();
+        int numberOfDaysResult = _holiday.getNumberOfHolidayPeriodsDays();
 
         // assert
         Assert.Equivalent(expectedValue, numberOfDaysResult);
@@ -274,7 +274,7 @@ public class HolidayTest
         HolidayPeriod hp1 = _holiday.addHolidayPeriod(hpFactoryDouble.Object, startDate, endDate);
 
         // act
-        bool result = _holiday.hasHolidayPeriodsDuring(_colabDouble.Object, startDate, endDate);
+        bool result = _holiday.hasColaboratorAndHolidayPeriodsDuring(_colabDouble.Object, startDate, endDate);
 
         // assert
         Assert.Equivalent(expectedResult, result);
@@ -302,7 +302,7 @@ public class HolidayTest
         HolidayPeriod hp1 = _holiday.addHolidayPeriod(hpFactoryDouble.Object, startDate, endDate);
 
         // act
-        bool result = _holiday.hasHolidayPeriodsDuring(_colabDouble.Object, startDateOutRange, endDateOutRange);
+        bool result = _holiday.hasColaboratorAndHolidayPeriodsDuring(_colabDouble.Object, startDateOutRange, endDateOutRange);
 
         // assert
         Assert.Equivalent(expectedResult, result);
