@@ -6,10 +6,10 @@ public class Holiday : IHoliday
 
 	private List<HolidayPeriod> _holidayPeriods = new List<HolidayPeriod>();
 
-	public IColaborator Colaborador
-	{
-		get { return _colaborator; }
-	}
+	private IColaborator Colaborador;
+	// {
+	// 	get { return _colaborator; }
+	// }
 
 	public Holiday(IColaborator colab)
 	{
@@ -71,4 +71,8 @@ public class Holiday : IHoliday
 		return _holidayPeriods.Sum(hp => hp.getNumberOfDays());
 	}
 
+	public bool hasColaborador(IColaborator colab)
+	{
+		return this._colaborator == colab ? true : false;
+	}
 }

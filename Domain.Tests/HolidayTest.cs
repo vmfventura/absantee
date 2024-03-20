@@ -42,19 +42,34 @@ public class HolidayTest
         Assert.Equal(NOME, nameResult);
     }
 
+    // [Fact]
+    // public void WhenRequestingColaborator_ShouldReturnColaborator()
+    // {
+    //     // arrange
+    //     Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+    //     Holiday holiday = new Holiday(colabDouble.Object);
+
+    //     // act
+    //     IColaborator colaborator = holiday.Colaborador;
+
+    //     // assert
+    //     Assert.Equal(colabDouble.Object, colaborator);
+    // }
+
     [Fact]
-    public void WhenRequestingColaborator_ShouldReturnColaborator()
+    public void WhenHasColaboratorWithCorrectColaborator_ShouldReturnTrue()
     {
         // arrange
         Mock<IColaborator> colabDouble = new Mock<IColaborator>();
         Holiday holiday = new Holiday(colabDouble.Object);
 
         // act
-        IColaborator colaborator = holiday.Colaborador;
+        bool hasColab = holiday.hasColaborador(colabDouble.Object);
 
         // assert
-        Assert.Equal(colabDouble.Object, colaborator);
+        Assert.True(hasColab);
     }
+
 
     [Fact]
     public void WhenRequestingHolidayPeriods_ShouldReturnHolidayPeriods()
