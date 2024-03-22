@@ -23,7 +23,7 @@ public class HolidayPeriod
 	{
 		if (!isStartDateIsValid(startDate, endDate))
 		{
-			throw new ArgumentException("invalid arguments: start date >= end date.");
+			throw new ArgumentException("Invalid arguments: start date >= end date.");
 		}
 		
 		this._startDate = startDate;

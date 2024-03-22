@@ -9,7 +9,7 @@ public interface IHoliday
 
     public bool hasColaboratorAndHolidayPeriodsDuring(IColaborator colaborator, DateOnly startDate, DateOnly endDate);
 
-    public int getHolidaysDaysWithMoreThanXDaysOff(int intDaysOff);
+    public bool getHolidaysDaysWithMoreThanXDaysOff(int intDaysOff);
 
     public int getNumberOfHolidayPeriodsDays();
 

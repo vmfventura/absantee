@@ -31,8 +31,6 @@ public class Holiday : IHoliday
 	public List<HolidayPeriod> getHolidayPeriodsDuring(DateOnly startDate, DateOnly endDate)
 	{
 		return _holidayPeriods.Where(hp => hp.EndDate > startDate && hp.StartDate < endDate)
-								// .Select(hp => new HolidayPeriod(hp.StartDate < startDate ? startDate : hp.StartDate,
-								// 			hp.EndDate > endDate ? endDate : hp.EndDate))
 								.ToList();
 	}
 
@@ -43,7 +41,7 @@ public class Holiday : IHoliday
 
 	
 
-	public int getHolidaysDaysWithMoreThanXDaysOff(int intDaysOff)
+	public bool getHolidaysDaysWithMoreThanXDaysOff(int intDaysOff)
 	{
 		int numberOfDays = 0;
 
@@ -53,11 +51,11 @@ public class Holiday : IHoliday
 		}
 		if (numberOfDays >= intDaysOff)
 		{
-			return numberOfDays;
+			return true;
 		}
 		else
 		{
-			return numberOfDays;
+			return false;
 		}
 	}
 

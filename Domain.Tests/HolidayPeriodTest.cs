@@ -12,6 +12,8 @@ public class HolidayPeriodTest
     {
         new HolidayPeriod(dateStart, dateEnd);
     }
+
+    
     public static readonly object[][] FailedCases =
     [
         [new DateOnly(DateTime.Now.Year,01,01), new DateOnly(DateTime.Now.Year,01,01)], // dateStart = dateEnd
@@ -20,7 +22,9 @@ public class HolidayPeriodTest
     [Theory, MemberData(nameof(FailedCases))]
     public void WhenPassingInvalidData_ThenThrowsException(DateOnly dateStart, DateOnly dateEnd)
     {
-        Assert.Throws<ArgumentException>(() => new HolidayPeriod(dateStart, dateEnd));
+        var ex = Assert.Throws<ArgumentException>(() => new HolidayPeriod(dateStart, dateEnd));
+
+        Assert.Equal("Invalid arguments: start date >= end date.", ex.Message);
     }
 
     public static readonly object[][] SucessDatesCases =

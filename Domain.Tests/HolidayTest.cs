@@ -22,7 +22,9 @@ public class HolidayTest
     [Fact]
     public void WhenPassingNullAsColaborator_ThenThrowsException()
     {
-        Assert.Throws<ArgumentException>(() => new Holiday(null));
+        var ex = Assert.Throws<ArgumentException>(() => new Holiday(null));
+
+        Assert.Equal("Invalid argument: colaborator must be non null", ex.Message);
     }
 
     [Fact]
@@ -41,20 +43,6 @@ public class HolidayTest
         // assert
         Assert.Equal(NOME, nameResult);
     }
-
-    // [Fact]
-    // public void WhenRequestingColaborator_ShouldReturnColaborator()
-    // {
-    //     // arrange
-    //     Mock<IColaborator> colabDouble = new Mock<IColaborator>();
-    //     Holiday holiday = new Holiday(colabDouble.Object);
-
-    //     // act
-    //     IColaborator colaborator = holiday.Colaborador;
-
-    //     // assert
-    //     Assert.Equal(colabDouble.Object, colaborator);
-    // }
 
     [Fact]
     public void WhenRequestingCorrectHasColaborator_ShouldReturnTrue()
@@ -170,26 +158,100 @@ public class HolidayTest
     }
 
     [Fact]
+    public void TestGetHolidayPeriodsDuring_EndDateEqualsStartDate()
+    {
+        // arrange
+        Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+        Mock<IHolidayPeriodFactory> hpFactoryDouble = new Mock<IHolidayPeriodFactory>();
+        Mock<IHolidayPeriodFactory> hpFactoryDouble2 = new Mock<IHolidayPeriodFactory>();
+        
+        var holiday = new Holiday(colabDouble.Object);
+
+        DateOnly startDate = new DateOnly(DateTime.Now.Year, 01, 01);
+        DateOnly endDate = new DateOnly(DateTime.Now.Year, 01, 31);
+
+        DateOnly startDateFirstHoliday = new DateOnly(DateTime.Now.AddYears(-1).Year, 02, 01);
+        DateOnly endDateFirstHoliday=  new DateOnly(DateTime.Now.Year, 01, 02);
+        // DateOnly startDateSecondHoliday = new DateOnly(DateTime.Now.Year, 07, 31);
+        // DateOnly endDateSecondHoliday=  new DateOnly(DateTime.Now.Year, 08, 15);        
+
+
+        Mock<HolidayPeriod> hpDouble1 = new Mock<HolidayPeriod>(startDateFirstHoliday, endDateFirstHoliday);
+        // Mock<HolidayPeriod> hpDouble2 = new Mock<HolidayPeriod>(startDateSecondHoliday, endDateSecondHoliday);
+
+        hpFactoryDouble.Setup(hpF => hpF.NewHolidayPeriod(startDateFirstHoliday, endDateFirstHoliday)).Returns(hpDouble1.Object);
+        // hpFactoryDouble2.Setup(hpF => hpF.NewHolidayPeriod(startDateSecondHoliday, endDateSecondHoliday)).Returns(hpDouble2.Object);
+
+        HolidayPeriod holidayPeriod1 = holiday.addHolidayPeriod(hpFactoryDouble.Object, startDateFirstHoliday, endDateFirstHoliday);
+        // HolidayPeriod holidayPeriod2 = holiday.addHolidayPeriod(hpFactoryDouble2.Object, startDateSecondHoliday, endDateSecondHoliday);
+
+        List<HolidayPeriod> holidayPeriods = new List<HolidayPeriod> { holidayPeriod1 };
+
+        // act
+        List<HolidayPeriod> result = holiday.getHolidayPeriodsDuring(startDate, endDate);
+
+        // assert
+        Assert.Equivalent(holidayPeriods, result);
+    }
+
+    [Fact]
+    public void TestGetHolidayPeriodsDuring_StartDateEqualsEndDate()
+    {
+        // arrange
+        Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+        Mock<IHolidayPeriodFactory> hpFactoryDouble = new Mock<IHolidayPeriodFactory>();
+        Mock<IHolidayPeriodFactory> hpFactoryDouble2 = new Mock<IHolidayPeriodFactory>();
+        
+        var holiday = new Holiday(colabDouble.Object);
+
+        DateOnly startDate = new DateOnly(DateTime.Now.Year, 01, 01);
+        DateOnly endDate = new DateOnly(DateTime.Now.Year, 01, 31);
+
+        DateOnly startDateFirstHoliday = new DateOnly(DateTime.Now.Year, 01, 31);
+        DateOnly endDateFirstHoliday=  new DateOnly(DateTime.Now.Year, 03, 20);
+        DateOnly startDateSecondHoliday = new DateOnly(DateTime.Now.Year, 07, 31);
+        DateOnly endDateSecondHoliday=  new DateOnly(DateTime.Now.Year, 08, 15);        
+
+
+        Mock<HolidayPeriod> hpDouble1 = new Mock<HolidayPeriod>(startDateFirstHoliday, endDateFirstHoliday);
+        Mock<HolidayPeriod> hpDouble2 = new Mock<HolidayPeriod>(startDateSecondHoliday, endDateSecondHoliday);
+
+        hpFactoryDouble.Setup(hpF => hpF.NewHolidayPeriod(startDateFirstHoliday, endDateFirstHoliday)).Returns(hpDouble1.Object);
+        hpFactoryDouble2.Setup(hpF => hpF.NewHolidayPeriod(startDateSecondHoliday, endDateSecondHoliday)).Returns(hpDouble2.Object);
+
+        HolidayPeriod holidayPeriod1 = holiday.addHolidayPeriod(hpFactoryDouble.Object, startDateFirstHoliday, endDateFirstHoliday);
+        HolidayPeriod holidayPeriod2 = holiday.addHolidayPeriod(hpFactoryDouble2.Object, startDateSecondHoliday, endDateSecondHoliday);
+
+        List<HolidayPeriod> holidayPeriods = new List<HolidayPeriod> { };
+
+        // act
+        List<HolidayPeriod> result = holiday.getHolidayPeriodsDuring(startDate, endDate);
+
+        // assert
+        Assert.Equivalent(holidayPeriods, result);
+    }
+
+    [Fact]
     public void GetListHolidayMoreDays_ReturnsHolidayListWithMoreThanXDaysOff()
     {
         // Arrange
         var mockHoliday1 = new Mock<IHoliday>();
-        mockHoliday1.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(2);
+        mockHoliday1.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(true);
     
         var mockHoliday2 = new Mock<IHoliday>();
-        mockHoliday2.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(0);
+        mockHoliday2.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(true);
 
         var mockHoliday3 = new Mock<IHoliday>();
-        mockHoliday3.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(3);
+        mockHoliday3.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(true);
     
         var holidayList = new List<IHoliday> { mockHoliday1.Object, mockHoliday2.Object, mockHoliday3.Object };
         var numberOfDays = 1;
     
         // Act
-        var result = holidayList.Where(h => h.getHolidaysDaysWithMoreThanXDaysOff(numberOfDays) >= numberOfDays).ToList();
+        var result = holidayList.Where(h => h.getHolidaysDaysWithMoreThanXDaysOff(numberOfDays)).ToList();
     
         // Assert
-        Assert.Equal(2, result.Count);
+        Assert.Equal(3, result.Count);
     }
 
 
@@ -198,19 +260,19 @@ public class HolidayTest
     {
         // Arrange
         var mockHoliday1 = new Mock<IHoliday>();
-        mockHoliday1.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(5);
+        mockHoliday1.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(false);
     
         var mockHoliday2 = new Mock<IHoliday>();
-        mockHoliday2.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(2);
+        mockHoliday2.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(false);
 
         var mockHoliday3 = new Mock<IHoliday>();
-        mockHoliday3.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(8);
+        mockHoliday3.Setup(h => h.getHolidaysDaysWithMoreThanXDaysOff(It.IsAny<int>())).Returns(false);
     
         var holidayList = new List<IHoliday> { mockHoliday1.Object, mockHoliday2.Object, mockHoliday3.Object };
         var numberOfDays = 20;
     
         // Act
-        var result = holidayList.Where(h => h.getHolidaysDaysWithMoreThanXDaysOff(numberOfDays) > numberOfDays).ToList();
+        var result = holidayList.Where(h => h.getHolidaysDaysWithMoreThanXDaysOff(numberOfDays)).ToList();
     
         // Assert
         Assert.Equal(0, result.Count);

@@ -15,7 +15,9 @@ public class Colaborator : IColaborator
 			_strEmail = strEmail;
 		}
 		else
+		{
 			throw new ArgumentException("Invalid arguments.");
+		}
 	}
 
 	private bool isValidParameters(string strName, string strEmail) {

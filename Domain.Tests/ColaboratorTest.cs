@@ -5,9 +5,12 @@ public class ColaboradorTest
     [Theory]
     [InlineData("Catarina Moreira", "catarinamoreira@email.pt")]
     [InlineData("a", "catarinamoreira@email.pt")]
+    [InlineData("kasdjflkadjf lkasdfj laksdjf alkdsfjv alkdsfjv asl", "catarinamoreira@email.pt")]
     public void WhenPassingCorrectData_ThenColaboradorIsInstantiated(string strName, string strEmail)
     {
-        new Colaborator( strName, strEmail);
+        Colaborator colaborator = new Colaborator( strName, strEmail);
+
+        Assert.Equal(strName, colaborator.getName());
     }
 
     
@@ -23,11 +26,13 @@ public class ColaboradorTest
         // arrange
 
         // assert
-        Assert.Throws<ArgumentException>(() =>
+        var ex = Assert.Throws<ArgumentException>(() =>
         
             // act
             new Colaborator(strName, strEmail)
         );
+        Assert.Equal("Invalid arguments.", ex.Message);
+        
     }
 
     [Theory]
@@ -37,11 +42,13 @@ public class ColaboradorTest
     public void WhenPassingInvalidEmail_ThenThrowsException(string strName, string strEmail)
     {
         // assert
-        Assert.Throws<ArgumentException>(() =>
+        var ex = Assert.Throws<ArgumentException>(() =>
         
             // act
             new Colaborator(strName, strEmail)
         );
+
+        Assert.Equal("Invalid arguments.", ex.Message);
     }
 
     [Theory]

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public interface IHolidayFactory
+    public interface IHolidaysFactory
     {
-        IHoliday NewHoliday(IColaborator colab);
+        Holidays NewHoliday(IHolidayFactory hFactory);
     }
 }
