@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using Xunit.Sdk;
 
 namespace Domain.Tests;
@@ -56,6 +57,21 @@ public class HolidayTest
 
         // assert
         Assert.True(hasColab);
+    }
+
+    [Fact]
+    public void WhenRequestingWrongHasColaborator_ShouldReturnFalse()
+    {
+        // arrange
+        Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+        Mock<IColaborator> colabDouble2 = new Mock<IColaborator>();
+        Holiday holiday = new Holiday(colabDouble.Object);
+
+        // act
+        bool hasColab = holiday.hasColaborador(colabDouble2.Object);
+
+        // assert
+        Assert.False(hasColab);
     }
 
 
@@ -279,6 +295,52 @@ public class HolidayTest
     }
 
     [Fact]
+    public void IfHaveMoreDaysOffThanX_ReturnsTrue()
+    {
+        // arrange
+        Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+        Holiday holiday = new Holiday(colabDouble.Object);
+        var hpFactoryDouble = new Mock<IHolidayPeriodFactory>();
+        DateOnly startDate = new DateOnly(DateTime.Now.Year, 02, 01);
+        DateOnly endDate = new DateOnly(DateTime.Now.Year, 02, 11);
+        HolidayPeriod holidayPeriodExpected = new HolidayPeriod(startDate, endDate);
+
+        hpFactoryDouble.Setup(hpF => hpF.NewHolidayPeriod(startDate, endDate)).Returns(holidayPeriodExpected);// to isolate the result
+
+        HolidayPeriod hp1 = holiday.addHolidayPeriod(hpFactoryDouble.Object, startDate, endDate);
+
+        // act
+        
+        bool result = holiday.getHolidaysDaysWithMoreThanXDaysOff(10);
+
+        // assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void IfHaveMinusDaysOffThanX_ReturnsFalse()
+    {
+        // arrange
+        Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+        Holiday holiday = new Holiday(colabDouble.Object);
+        var hpFactoryDouble = new Mock<IHolidayPeriodFactory>();
+        DateOnly startDate = new DateOnly(DateTime.Now.Year, 02, 01);
+        DateOnly endDate = new DateOnly(DateTime.Now.Year, 02, 02);
+        HolidayPeriod holidayPeriodExpected = new HolidayPeriod(startDate, endDate);
+
+        hpFactoryDouble.Setup(hpF => hpF.NewHolidayPeriod(startDate, endDate)).Returns(holidayPeriodExpected);// to isolate the result
+
+        HolidayPeriod hp1 = holiday.addHolidayPeriod(hpFactoryDouble.Object, startDate, endDate);
+
+        // act
+        
+        bool result = holiday.getHolidaysDaysWithMoreThanXDaysOff(8);
+
+        // assert
+        Assert.False(result);
+    }
+
+    [Fact]
     public void WhenPassingHolidayPeriod_GetNumberOfDays()
     {
         // arrange
@@ -296,6 +358,39 @@ public class HolidayTest
         hpFactoryDouble.Setup(hpF => hpF.NewHolidayPeriod(startDate, endDate)).Returns(holidayPeriodExpected);// to isolate the result
 
         HolidayPeriod hp1 = _holiday.addHolidayPeriod(hpFactoryDouble.Object, startDate, endDate);
+
+        // act
+        int numberOfDaysResult = _holiday.getNumberOfHolidayPeriodsDays();
+
+        // assert
+        Assert.Equivalent(expectedValue, numberOfDaysResult);
+    }
+
+    [Fact]
+    public void WhenPassingMultipleHolidayPeriods_GetNumberOfDays()
+    {
+        // arrange
+        Mock<IColaborator> _colabDouble = new Mock<IColaborator>();
+        Holiday _holiday = new Holiday(_colabDouble.Object);
+        var hpFactoryDouble = new Mock<IHolidayPeriodFactory>();
+        var hpFactoryDouble2 = new Mock<IHolidayPeriodFactory>();
+
+        int expectedValue = 18;
+
+        DateOnly startDate = new DateOnly(DateTime.Now.Year, 02, 01);
+        DateOnly endDate = new DateOnly(DateTime.Now.Year, 02, 10);
+        DateOnly startDate2 = new DateOnly(DateTime.Now.Year, 03, 01);
+        DateOnly endDate2 = new DateOnly(DateTime.Now.Year, 03, 10);
+
+        HolidayPeriod holidayPeriodExpected = new HolidayPeriod(startDate, endDate);
+        HolidayPeriod holidayPeriodExpected2 = new HolidayPeriod(startDate2, endDate2);
+
+
+        hpFactoryDouble.Setup(hpF => hpF.NewHolidayPeriod(startDate, endDate)).Returns(holidayPeriodExpected);// to isolate the result
+        hpFactoryDouble2.Setup(hpF => hpF.NewHolidayPeriod(startDate2, endDate2)).Returns(holidayPeriodExpected2);// to isolate the result
+
+        HolidayPeriod hp1 = _holiday.addHolidayPeriod(hpFactoryDouble.Object, startDate, endDate);
+        HolidayPeriod hp2 = _holiday.addHolidayPeriod(hpFactoryDouble2.Object, startDate2, endDate2);
 
         // act
         int numberOfDaysResult = _holiday.getNumberOfHolidayPeriodsDays();

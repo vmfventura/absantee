@@ -2,6 +2,56 @@ namespace Domain.Tests;
 
 public class HolidayReportTest
 {
+    [Fact]
+    public void WhenPassingWrongDates_ThenThrowsException()
+    {
+        Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+        DateOnly startDate = new DateOnly(DateTime.Now.AddYears(1).Year, 1, 1);
+        string description = "A Valid Description";
+
+        // HolidayReport holidayReport = new HolidayReport(startDate, true, description, colabDouble.Object);
+
+        // act
+        var ex = Assert.Throws<ArgumentException>(() => new HolidayReport(startDate, true, description, colabDouble.Object));
+
+        // assert
+        Assert.Equal("Invalid Date.", ex.Message);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    [InlineData("          ")]
+    public void WhenPassingNullDescription_ThenThrowsException(string description)
+    {
+        Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+        DateOnly startDate = new DateOnly(DateTime.Now.Year, 1, 1);
+
+        // HolidayReport holidayReport = new HolidayReport(startDate, true, description, colabDouble.Object);
+
+        // act
+        var ex = Assert.Throws<ArgumentException>(() => new HolidayReport(startDate, true, description, colabDouble.Object));
+
+        // assert
+        Assert.Equal("Description can't be empty or null.", ex.Message);
+    }
+
+    [Fact]
+    public void WhenPassingNullColaborator_ThenThrowsException()
+    {
+        Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+        DateOnly startDate = new DateOnly(DateTime.Now.Year, 1, 1);
+        string description = "A Valid Description";
+
+        // HolidayReport holidayReport = new HolidayReport(startDate, true, description, colabDouble.Object);
+
+        // act
+        var ex = Assert.Throws<ArgumentException>(() => new HolidayReport(startDate, true, description, null));
+
+        // assert
+        Assert.Equal("Colaborator can't be null.", ex.Message);
+    }
+
     // Correct data 
     public static readonly object[][] SucessCases =
     [
