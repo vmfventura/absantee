@@ -21,11 +21,5 @@ namespace Domain
             _project = project;
             this._holidays = holidays;
         }
-
-        // public List<Holidays> getHolidaysDaysByColaboratorInProjectByDateRange(IColaborator colaborator, IProject project, DateOnly dateStart, DateOnly dateEnd)
-        // {
-        //     return _holidays.Where(hList => hList.getListHolidayFilterByColaborator(colaborator).Count() > 0).ToList();
-        // }
-
     }
 }

@@ -7,7 +7,7 @@ public class Associate : IAssociate
     private DateOnly _startDate;
     private DateOnly? _endDate;
 
-    public Associate(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
+    public Associate(IColaborator colaborator, DateOnly startDate, DateOnly? endDate)
     {
         if(colaborator is null || !isStartDateIsValid(startDate, endDate))
         {
@@ -24,7 +24,7 @@ public class Associate : IAssociate
 		return this._colaborator == colab ? true : false;
 	}
 
-    public bool isStartDateIsValid(DateOnly startDate, DateOnly endDate)
+    public bool isStartDateIsValid(DateOnly startDate, DateOnly? endDate)
 	{
 		if( startDate >= endDate ) 
 		{
@@ -33,12 +33,12 @@ public class Associate : IAssociate
 		return true;
 	}
 
-    public bool isDateInRange(DateOnly startDate, DateOnly endDate)
+    public bool isDateInRange(DateOnly startDate, DateOnly? endDate)
     {
         return this._startDate >= startDate && this._endDate <= endDate;
     }
 
-    public bool isColaboratorValidInDateRange(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
+    public bool isColaboratorValidInDateRange(IColaborator colaborator, DateOnly startDate, DateOnly? endDate)
     {
         return this.hasColaborador(colaborator) && this.isDateInRange(startDate, endDate);
     }
