@@ -44,14 +44,9 @@ public class Project : IProject
         return true;
     }
 
-    public List<Associate> getListAssociate()
-	{
-		return _associations;
-	}
-
     public List<Associate> getListByColaborator(IColaborator colaborator)
     {        
-        return _associations.Where(a => a.getColaborator() == colaborator).ToList();
+        return _associations.Where(a => a.hasColaborador(colaborator)).ToList();
     }
 
 }

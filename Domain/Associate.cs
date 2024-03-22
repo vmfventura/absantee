@@ -4,18 +4,32 @@ public class Associate : IAssociate
 {
     private IColaborator _colaborator;
 
-    public Associate(IColaborator colaborator)
+    private DateOnly _startDate;
+    private DateOnly? _endDate;
+
+    public Associate(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
     {
-        if(colaborator is null)
+        if(colaborator is null || !isStartDateIsValid(startDate, endDate))
         {
-            throw new ArgumentException("Colaborator can't be null");
+            throw new ArgumentException("Invalid arguments.");
         }
 
-        this._colaborator = colaborator;        
+        this._colaborator = colaborator;
+        this._startDate = startDate;
+        this._endDate = endDate;
     }
 
-    public IColaborator getColaborator()
+    public bool hasColaborador(IColaborator colab)
 	{
-		return _colaborator;
+		return this._colaborator == colab ? true : false;
+	}
+
+    public bool isStartDateIsValid(DateOnly startDate, DateOnly endDate)
+	{
+		if( startDate >= endDate ) 
+		{
+			return false;
+		}
+		return true;
 	}
 }
