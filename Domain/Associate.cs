@@ -32,4 +32,14 @@ public class Associate : IAssociate
 		}
 		return true;
 	}
+
+    public bool isDateInRange(DateOnly startDate, DateOnly endDate)
+    {
+        return this._startDate >= startDate && this._endDate <= endDate;
+    }
+
+    public bool isColaboratorValidInDateRange(IColaborator colaborator, DateOnly startDate, DateOnly endDate)
+    {
+        return this.hasColaborador(colaborator) && this.isDateInRange(startDate, endDate);
+    }
 }
