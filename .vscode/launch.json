@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "name": "C#: Domain.Tests",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}\\Domain.Tests\\Domain.Tests.csproj",
+            "launchConfigurationId": "TargetFramework=;Domain.Tests"
+        }
+    ]
+}
