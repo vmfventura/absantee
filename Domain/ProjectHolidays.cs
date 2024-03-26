@@ -8,18 +8,33 @@ namespace Domain
 {
     public class ProjectHolidays
     {
-        private IProject _project;
-        private List<Holidays> _holidays = new List<Holidays>();
+        private List<IProject> _projects = new List<IProject>();
+        private List<IHolidays> _holidays = new List<IHolidays>();
 
-        public ProjectHolidays(IProject project, List<Holidays> holidays)
+        public ProjectHolidays(List<IProject> projects, List<IHolidays> holidays)
         {
-            if (project is null || holidays is null)
+            if (projects is null || holidays is null)
             {
                 throw new ArgumentException("Project or holidays cannot be null");
             }
 
-            _project = project;
+            this._projects = projects;
             this._holidays = holidays;
+        }
+
+        public int GetHolidaysDaysColaboratorInProjectDuringPeriodOfTime(IColaborator colaborator, IProject project, DateOnly startDate, DateOnly endDate)
+        {
+            bool projects = _projects.Where(p => p.getListByColaboratorInRange(colaborator, startDate, endDate).Any() && project.Equals(p)).Any();
+            if (projects)
+            {
+                List<IHolidays> holidays = _holidays.Where(h => h.getListHolidayFilterByColaborator(colaborator, startDate, endDate).Any()).ToList();
+
+                return holidays.Sum(x => x.getNumberOfHolidaysDaysForColaboratorDuringPeriod(colaborator, startDate, endDate));
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

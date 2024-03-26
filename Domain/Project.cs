@@ -10,7 +10,7 @@ public class Project : IProject
 
     private DateOnly? _dateEnd;
 
-    private List<Associate> _associations = new List<Associate>();
+    private List<IAssociate> _associations = new List<IAssociate>();
 
     public Project(string strName, DateOnly dateStart, DateOnly? dateEnd)
     {
@@ -30,7 +30,7 @@ public class Project : IProject
         return associate; 
     }
 
-    private bool isValidParameters(string strName, DateOnly dateStart, DateOnly? dateEnd)
+    public bool isValidParameters(string strName, DateOnly dateStart, DateOnly? dateEnd)
     { 
         if( strName==null || strName.Length > 50 || string.IsNullOrWhiteSpace(strName) ||
             (dateStart > dateEnd) )
@@ -40,13 +40,13 @@ public class Project : IProject
         return true;
     }
 
-    public List<Associate> getListByColaborator(IColaborator colaborator)
+    public List<IAssociate> getListByColaborator(IColaborator colaborator)
     {        
         return _associations.Where(a => a.hasColaborador(colaborator)).ToList();
     }
 
 
-    public List<Associate> getListByColaboratorInRange(IColaborator colaborator, DateOnly startDate, DateOnly? endDate)
+    public List<IAssociate> getListByColaboratorInRange(IColaborator colaborator, DateOnly startDate, DateOnly? endDate)
     {        
         return _associations.Where(a => a.isColaboratorValidInDateRange(colaborator, startDate, endDate)).ToList();
     }

@@ -11,11 +11,11 @@ public class Colaborator : IColaborator
 
 	protected Colaborator() {}
 
-    public Colaborator(string strName, string strEmail) {
+    public Colaborator(string _strName, string _strEmail) {
 
-		if( isValidParameters(strName, strEmail) ) {
-			_strName = strName;
-			_strEmail = strEmail;
+		if( isValidParameters(_strName, _strEmail) ) {
+			this._strName = _strName;
+			this._strEmail = _strEmail;
 		}
 		else
 		{

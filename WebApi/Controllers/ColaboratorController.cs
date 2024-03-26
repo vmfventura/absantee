@@ -79,9 +79,9 @@ namespace WebApi.Controllers
         {
             _context.Colaborators.Add(colaborator);
             await _context.SaveChangesAsync();
-
-            // return CreatedAtAction("GetColaborator", new { id = colaborator.Id }, colaborator);
-            return CreatedAtAction(nameof(Colaborator), new { id = colaborator.Id }, colaborator);
+    // return Ok();
+            return CreatedAtAction(nameof(PostColaborator), new { id = colaborator.Id }, colaborator);
+            // return CreatedAtAction(nameof(Colaborator), new { id = colaborator.Id }, colaborator);
         }
 
         // DELETE: api/Colaborator/5
