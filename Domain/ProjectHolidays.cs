@@ -36,5 +36,16 @@ namespace Domain
                 return 0;
             }
         }
+
+        public int GetAllHolidaysDaysColaboratorInProjectDuringPeriodOfTime(IProject project, DateOnly startDate, DateOnly endDate)
+        {
+            List<IColaborator> allColaborators = _projects.Where(p => p.getListColaboratorByProject().Any())
+                                                                    .SelectMany(p => p.getListColaboratorByProject())
+                                                                    .Distinct()
+                                                                    .ToList();
+
+            return allColaborators.Sum(colaborator => 
+                    GetHolidaysDaysColaboratorInProjectDuringPeriodOfTime(colaborator, project, startDate, endDate));
+        }
     }
 }

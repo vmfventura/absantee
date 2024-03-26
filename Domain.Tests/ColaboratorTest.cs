@@ -74,6 +74,6 @@ public class ColaboradorTest
         string name = colaborator.getName();
 
         //assert
-        Assert.Equal("Catarina Moreira", name);
+        Assert.Equal(nameExpected, name);
     }
 }

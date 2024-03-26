@@ -51,4 +51,9 @@ public class Project : IProject
         return _associations.Where(a => a.isColaboratorValidInDateRange(colaborator, startDate, endDate)).ToList();
     }
 
+    public List<IColaborator> getListColaboratorByProject()
+    {
+        return _associations.Select(a => a.getColaborator()).Distinct().ToList();
+    }
+
 }

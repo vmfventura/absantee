@@ -42,4 +42,9 @@ public class Associate : IAssociate
     {
         return this.hasColaborador(colaborator) && this.isDateInRange(startDate, endDate);
     }
+
+    public IColaborator getColaborator()
+    {
+        return this._colaborator;
+    }
 }
