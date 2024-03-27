@@ -118,4 +118,61 @@ public class ProjectTest
         // assert
         Assert.Empty(result);
     }
+
+    [Fact]
+    public void WhenAskingColaboratorsFromProject_ShouldReturnAListOfColaboratorsInThatProject()
+    {
+        // arrange
+        string projectName = "Project Unit Test";
+        DateOnly startDateProject = new DateOnly(DateTime.Now.Year, 01, 01);
+        DateOnly? endDateProject = null;
+        Project project = new Project(projectName, startDateProject, endDateProject);
+
+        DateOnly startDate = new DateOnly(DateTime.Now.Year, 02, 01);
+        DateOnly startDate2 = new DateOnly(DateTime.Now.Year, 01, 01);
+        DateOnly endDate = new DateOnly(DateTime.Now.Year, 12, 01);
+        DateOnly endDate2 = new DateOnly(DateTime.Now.Year, 03, 01);
+
+        Mock<IColaborator> colabDouble = new Mock<IColaborator>();
+        Mock<IColaborator> colabDouble2 = new Mock<IColaborator>();
+        Mock<IColaborator> colabDouble3 = new Mock<IColaborator>();
+
+        Mock<Associate> associateDouble = new Mock<Associate>(colabDouble.Object, startDate, endDate);
+        Mock<Associate> associateDouble2 = new Mock<Associate>(colabDouble2.Object, startDate, endDate2);
+        Mock<Associate> associateDouble3 = new Mock<Associate>(colabDouble3.Object, startDate2, endDate);
+
+        Mock<IAssociateFactory> associateDoubleFactory = new Mock<IAssociateFactory>();
+        Mock<IAssociateFactory> associateDoubleFactory2 = new Mock<IAssociateFactory>();
+        Mock<IAssociateFactory> associateDoubleFactory3 = new Mock<IAssociateFactory>();
+
+        associateDoubleFactory
+            .Setup(x => x.NewAssociate(colabDouble.Object, startDate, endDate))
+            .Returns(associateDouble.Object);
+        associateDoubleFactory2
+            .Setup(x => x.NewAssociate(colabDouble2.Object, startDate, endDate2))
+            .Returns(associateDouble2.Object);
+        associateDoubleFactory3
+            .Setup(x => x.NewAssociate(colabDouble3.Object, startDate2, endDate))
+            .Returns(associateDouble3.Object);
+
+        project.addAssociate(associateDoubleFactory.Object, colabDouble.Object, startDate, endDate);
+        project.addAssociate(associateDoubleFactory2.Object, colabDouble2.Object, startDate, endDate2);
+        project.addAssociate(associateDoubleFactory3.Object, colabDouble3.Object, startDate2, endDate);
+
+        Mock<IAssociate> associate = new Mock<IAssociate>();
+        List<IColaborator> colaborators = new List<IColaborator>() {colabDouble.Object, colabDouble2.Object, colabDouble3.Object};
+
+        List<IAssociate> associates = new List<IAssociate>() {associateDouble.Object, associateDouble2.Object, associateDouble3.Object};
+
+        associate.Setup(a => a.getColaborator()).Returns(colabDouble.Object);
+        associate.Setup(a => a.getColaborator()).Returns(colabDouble2.Object);
+        associate.Setup(a => a.getColaborator()).Returns(colabDouble3.Object);
+
+        // act
+        var resultColaborators = project.getListColaboratorByProject();
+
+        // assert
+        Assert.NotEmpty(resultColaborators);
+        Assert.Equivalent(colaborators, resultColaborators);
+    }
 }

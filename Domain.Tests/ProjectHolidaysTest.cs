@@ -172,11 +172,12 @@ namespace Domain.Tests
             Mock<IProject> projectDouble = new Mock<IProject>();
 
             Mock<IHolidayPeriodFactory> holidayPeriodFactory = new Mock<IHolidayPeriodFactory>();
+            Mock<IHolidayPeriodFactory> holidayPeriodFactory2 = new Mock<IHolidayPeriodFactory>();
 
             Holiday holidayInstance = new Holiday(colabDouble.Object);
             Holiday holidayInstance2 = new Holiday(colabDouble.Object);
             holidayInstance.addHolidayPeriod(holidayPeriodFactory.Object, startDate, endDate);      // actual Holiday
-            holidayInstance2.addHolidayPeriod(holidayPeriodFactory.Object, startDate2, endDate2);  // past Holiday
+            holidayInstance2.addHolidayPeriod(holidayPeriodFactory2.Object, startDate2, endDate2);  // past Holiday
             List<IHoliday> holidays = new List<IHoliday> { holidayInstance, holidayInstance2};
 
             Associate associate = new Associate(colabDouble.Object, startDate, endDate);
@@ -186,7 +187,7 @@ namespace Domain.Tests
 
             projectDouble.Setup(p => p.getListByColaboratorInRange(colabDouble.Object, startDate, endDate)).Returns(associates);
             holidaysDouble.Setup(h => h.getListHolidayFilterByColaborator(colabDouble.Object, startDate, endDate)).Returns( holidays );
-            holidaysDouble.Setup(h => h.getNumberOfHolidaysDaysForColaboratorDuringPeriod(colabDouble.Object, startDate, endDate)).Returns(10);
+            holidaysDouble.Setup(h => h.getNumberOfHolidaysDaysForColaboratorDuringPeriod(colabDouble.Object, startDate, endDate)).Returns(30);
 
             List<IProject> projects = new List<IProject> { projectDouble.Object };
             List<IHolidays> holidaysList = new List<IHolidays> { holidaysDouble.Object };
@@ -198,7 +199,7 @@ namespace Domain.Tests
             var result = projectHolidays.GetHolidaysDaysColaboratorInProjectDuringPeriodOfTime(colabDouble.Object, projectDouble.Object, startDate, endDate);
 
             // assert
-            Assert.Equal(10, result);
+            Assert.Equal(30, result);
         }
         
 
@@ -224,7 +225,8 @@ namespace Domain.Tests
             Holiday holidayInstance = new Holiday(colabDouble.Object);
             Holiday holidayInstance2 = new Holiday(colabDouble2.Object);
             holidayInstance.addHolidayPeriod(holidayPeriodFactory.Object, startDate, endDate);
-            List<IHoliday> holidays = new List<IHoliday> { holidayInstance };
+            holidayInstance2.addHolidayPeriod(holidayPeriodFactory.Object, startDate2, endDate2);
+            List<IHoliday> holidays = new List<IHoliday> { holidayInstance, holidayInstance2 };
 
             Associate associate = new Associate(colabDouble.Object, startDate2, endDate2);
             Associate associate2 = new Associate(colabDouble2.Object, startDate3, endDate3);
@@ -234,15 +236,17 @@ namespace Domain.Tests
 
             projectDouble.Setup(p => p.getListByColaboratorInRange(colabDouble.Object, startDate, endDate)).Returns(associates);
             projectDouble.Setup(p => p.getListByColaboratorInRange(colabDouble2.Object, startDate, endDate)).Returns(associates);
+
             projectDouble.Setup(p => p.getListColaboratorByProject()).Returns(colabDoubleList);
+            
             holidaysDouble.Setup(h => h.getListHolidayFilterByColaborator(colabDouble.Object, startDate, endDate)).Returns( holidays );
             holidaysDouble.Setup(h => h.getNumberOfHolidaysDaysForColaboratorDuringPeriod(colabDouble.Object, startDate, endDate)).Returns(10);
+
             holidaysDouble.Setup(h => h.getListHolidayFilterByColaborator(colabDouble2.Object, startDate, endDate)).Returns( holidays );
-            holidaysDouble.Setup(h => h.getNumberOfHolidaysDaysForColaboratorDuringPeriod(colabDouble2.Object, startDate, endDate)).Returns(10);
+            holidaysDouble.Setup(h => h.getNumberOfHolidaysDaysForColaboratorDuringPeriod(colabDouble2.Object, startDate, endDate)).Returns(20);
 
             List<IProject> projects = new List<IProject> { projectDouble.Object };
             List<IHolidays> holidaysList = new List<IHolidays> { holidaysDouble.Object };
-
 
             ProjectHolidays projectHolidays = new ProjectHolidays(projects, holidaysList);
 
@@ -250,7 +254,7 @@ namespace Domain.Tests
             var result = projectHolidays.GetAllHolidaysDaysColaboratorInProjectDuringPeriodOfTime(projectDouble.Object, startDate, endDate);
 
             // assert
-            Assert.Equal(20, result);
+            Assert.Equal(30, result);
         }
     }
 }

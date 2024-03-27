@@ -31,10 +31,7 @@ namespace Domain
 
                 return holidays.Sum(x => x.getNumberOfHolidaysDaysForColaboratorDuringPeriod(colaborator, startDate, endDate));
             }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
 
         public int GetAllHolidaysDaysColaboratorInProjectDuringPeriodOfTime(IProject project, DateOnly startDate, DateOnly endDate)
