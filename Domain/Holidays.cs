@@ -7,9 +7,11 @@ namespace Domain
 {
     public class Holidays : IHolidays
     {
-        private IHolidayFactory _holidayFactory;
-        private List<IHoliday> _holidayList = new List<IHoliday>();
-
+        public long Id { get; set; }
+        public IHolidayFactory _holidayFactory;
+        public List<IHoliday> _holidayList = new List<IHoliday>();
+        
+        protected Holidays() {}
         public Holidays(IHolidayFactory hFactory)
         {
             if (hFactory is not null)

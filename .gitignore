@@ -52,3 +52,8 @@ Thumbs.db
 *.mov
 *.wmv
 
+.vs/Absantee/DesignTimeBuild/.dtbcache.v2
+.vs/Absantee/FileContentIndex/baa724f5-a352-41da-a01c-54246b47886f.vsidx
+.vs/Absantee/FileContentIndex/f030db9c-173f-4689-9ee7-8d82ce292b8d.vsidx
+.vs/ProjectEvaluation/absantee.metadata.v7.bin
+.vs/ProjectEvaluation/absantee.projects.v7.bin

@@ -3,6 +3,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Mail;
 
+
 public class Colaborator : IColaborator
 {
 	public long Id { get; set; }

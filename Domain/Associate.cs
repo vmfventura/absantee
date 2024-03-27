@@ -2,10 +2,13 @@ using Domain;
 
 public class Associate : IAssociate
 {
-    private IColaborator _colaborator;
+    public long Id { get; set; }
+    public IColaborator _colaborator;
 
-    private DateOnly _startDate;
-    private DateOnly? _endDate;
+    public DateOnly _startDate;
+    public DateOnly? _endDate;
+
+    protected Associate () {}
 
     public Associate(IColaborator colaborator, DateOnly startDate, DateOnly? endDate)
     {

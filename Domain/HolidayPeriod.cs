@@ -4,20 +4,37 @@ namespace Domain;
 
 public class HolidayPeriod
 {
-	DateOnly _startDate;
-	DateOnly _endDate;
+	public long Id { get; set; }
+	// public DateOnly _startDate { get; set; }
+	// public DateOnly _endDate { get; set; }
 
-	int _status;
-
+	private DateOnly _startDate;
 	public DateOnly StartDate
 	{
 		get { return _startDate; }
+		set { _startDate = value; }
 	}
-
+	private DateOnly _endDate;
 	public DateOnly EndDate
 	{
 		get { return _endDate; }
+		set { _endDate = value; }
 	}
+	
+
+	int _status;
+
+	protected HolidayPeriod() { }
+
+	// public DateOnly StartDate
+	// {
+	// 	get { return _startDate; }
+	// }
+
+	// public DateOnly EndDate
+	// {
+	// 	get { return _endDate; }
+	// }
 
 	public HolidayPeriod(DateOnly startDate, DateOnly endDate)
 	{

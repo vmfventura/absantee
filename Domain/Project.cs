@@ -4,13 +4,16 @@ namespace Domain;
 
 public class Project : IProject
 {
-    private string _strName;
+    public long Id { get; set; }
+    public string _strName { get; set; }
 
-    private DateOnly _dateStart;
+    public DateOnly _dateStart { get; set; }
 
-    private DateOnly? _dateEnd;
+    public DateOnly? _dateEnd { get; set; }
 
-    private List<IAssociate> _associations = new List<IAssociate>();
+    public List<IAssociate> _associations = new List<IAssociate>();
+
+    protected Project() {}
 
     public Project(string strName, DateOnly dateStart, DateOnly? dateEnd)
     {

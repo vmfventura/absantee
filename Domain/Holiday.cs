@@ -2,9 +2,12 @@ namespace Domain;
 
 public class Holiday : IHoliday
 {
-	private IColaborator _colaborator;
+	public long Id { get; set; }
+	public IColaborator _colaborator { get; set; }
 
-	private List<HolidayPeriod> _holidayPeriods = new List<HolidayPeriod>();
+	public List<HolidayPeriod> _holidayPeriods { get; set; }
+
+	protected Holiday() { }
 
 	public Holiday(IColaborator colab)
 	{

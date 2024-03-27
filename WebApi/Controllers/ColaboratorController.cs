@@ -6,20 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Domain;
+// using WebApi.Context;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ColaboratorController : ControllerBase
+    public class ColaboratorController(DataContext _context) : ControllerBase
     {
-        private readonly ColaboratorContext _context;
-
-        public ColaboratorController(ColaboratorContext context)
-        {
-            _context = context;
-        }
-
         // GET: api/Colaborator
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Colaborator>>> GetColaborators()
