@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public interface IProjectFactory
+    public class IProjects
     {
-        public Project NewProject(string strName, DateOnly dateStart, DateOnly? dateEnd);
+        
     }
 }

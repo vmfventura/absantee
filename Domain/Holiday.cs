@@ -3,9 +3,9 @@ namespace Domain;
 public class Holiday : IHoliday
 {
 	public long Id { get; set; }
-	public IColaborator _colaborator { get; set; }
+	public IColaborator _colaborator ;
 
-	public List<HolidayPeriod> _holidayPeriods { get; set; }
+	public List<HolidayPeriod> _holidayPeriods ;
 
 	protected Holiday() { }
 

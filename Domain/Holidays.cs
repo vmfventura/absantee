@@ -62,5 +62,11 @@ namespace Domain
             return _holidayList.Where(h => h.hasColaborador(colaborator))
                                 .Sum(h => h.getNumberOfHolidayPeriodsDays());
         }
+
+
+        // public List<IHolidays> getListHolidayFilterByColaborator(colaborator, startDate, endDate) {
+        
+        //     return _holidayList.Where(h => h.getListHolidayFilterByColaborator(colaborator, startDate, endDate).Any()).ToList();
+        // }
     }
 }
